@@ -11,6 +11,12 @@
 // @run-at       document-end
 // ==/UserScript==
 
+function createCallback(speed){
+  return function(){
+    document.getElementsByTagName("video")[0].playbackRate = speed;
+  }
+}
+
 function run(){
     /* Create button */
     var buttonDiv = document.createElement("div");
@@ -23,8 +29,10 @@ function run(){
     slowButton.style.borderRadius = "2px";
     slowButton.style.color = "hsla(0, 0%, 6.7%, .6)";
     slowButton.style.outlineWidth = "0";
-    slowButton.style.marginRight = "5px";
+    slowButton.style.marginRight = "2px";
     slowButton.appendChild(document.createTextNode("<<"));
+    slowButton.style.height = "18px";
+    slowButton.style.width = "30px";
     slowButton.onclick = function () {
       document.getElementsByTagName("video")[0].playbackRate *= 0.9;
     };
@@ -35,11 +43,28 @@ function run(){
     fastButton.style.borderRadius = "2px";
     fastButton.style.color = "hsla(0, 0%, 6.7%, .6)";
     fastButton.style.outlineWidth = "0";
+    fastButton.style.marginRight = "2px";
     fastButton.appendChild(document.createTextNode(">>"));
+    fastButton.style.height = "18px";
+    fastButton.style.width = "30px";
     fastButton.onclick = function () {
         document.getElementsByTagName("video")[0].playbackRate *= 1.1;
     };
     buttonDiv.appendChild(fastButton);
+
+    for (var speed = 1.5; speed <= 3; speed += 0.5) {
+      var button = document.createElement("button");
+      button.style.backgroundColor = "hsl(0, 0%, 93.3%)";
+      button.style.borderRadius = "2px";
+      button.style.color = "hsla(0, 0%, 6.7%, .6)";
+      button.style.outlineWidth = "0";
+      button.style.marginRight = "2px";
+      button.appendChild(document.createTextNode(speed));
+      button.style.height = "18px";
+      button.style.width = "30px";
+      button.onclick = createCallback(speed);
+      buttonDiv.appendChild(button);
+    }
 
 
     /* Inject button */
